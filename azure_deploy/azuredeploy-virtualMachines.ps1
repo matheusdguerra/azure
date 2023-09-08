@@ -2,7 +2,7 @@ $templateFile="C:\Users\matheus.guerra\OneDrive - GOVERNANCABRASIL S A TECNOLOGI
 $today=Get-Date -Format "MM-dd-yyyy"
 $deploymentName="add-virtualMachines-"+"$today"
 $adminUsername="adminUsername"
-$adminPassword="192.168:Gov$"
+$adminPassword="adminPassword"
 
 
 New-AzResourceGroupDeployment `
