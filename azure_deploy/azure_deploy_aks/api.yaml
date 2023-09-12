@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote-api
+  labels:
+    app: vote-api
+spec:
+  selector:
+    matchLabels:
+      app: vote-api
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: vote-api
+    spec:
+      containers:
+       - name: vote-api-container
+         image: khaosdoctor/go-vote-api
+         resources:
+           limits:
+            cpu: 50m
+            memory: 50M
+         ports:
+         - containerPort: 8080
+           name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote-api
+spec:
+  selector:
+    app: vote-api
+  ports:
+  - name: default
+    port: 80
+    targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vote-api
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: api.teste.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: vote-api
+            port:
+              name: default
+        
